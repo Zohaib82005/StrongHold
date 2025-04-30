@@ -1,4 +1,4 @@
-#include "Army.h"
+#include "stronghold.h"
 #include <iostream>
 #include <stdexcept>
 

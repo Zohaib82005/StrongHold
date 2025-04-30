@@ -1,6 +1,8 @@
 #ifndef ARMY_H
 #define ARMY_H
-
+#include<string>
+#include <iostream> 
+using namespace std;
 class Army
 {
 private:
@@ -72,21 +74,20 @@ public:
 class Leadership
 {
 private:
-    std::string currentLeader;
-    std::string policy;
+    string currentLeader;
+    string policy;
     int popularity;
     bool inPower;
 
 public:
     Leadership();
 
-    void holdElection(const std::string &newLeader);
+    void holdElection(const std::string& newLeader);
     void initiateCoup();
-    void changePolicy(const std::string &newPolicy);
+    void changePolicy(const std::string& newPolicy);
     void assessStability();
-
     void displayStatus() const;
-    std::string getPolicy() const;
+    string getPolicy() const;
     bool isInPower() const;
 };
 
@@ -146,3 +147,4 @@ public:
     int getIron() const;
 };
 #endif
+
