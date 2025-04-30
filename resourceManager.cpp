@@ -1,4 +1,4 @@
-#include "ResourceManager.h"
+#include "stronghold.h"
 #include <iostream>
 
 ResourceManager::ResourceManager() {

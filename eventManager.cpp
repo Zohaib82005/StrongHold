@@ -1,4 +1,4 @@
-#include "EventManager.h"
+#include "stronghold.h"
 #include <iostream>
 #include <cstdlib> // for rand()
 #include <ctime>   // for seeding random

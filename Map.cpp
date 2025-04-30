@@ -1,5 +1,5 @@
 // Map.cpp
-#include "Map.h"
+#include "stronghold.h"
 #include <iostream>
 
 Map::Map() {

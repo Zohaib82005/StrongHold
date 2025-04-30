@@ -1,4 +1,4 @@
-#include "Economy.h"
+#include "stronghold.h"
 #include <iostream>
 
 Economy::Economy() {

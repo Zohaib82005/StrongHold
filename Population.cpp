@@ -1,4 +1,4 @@
-#include "Population.h"
+#include "stronghold.h"
 #include <iostream>
 
 Population::Population() {

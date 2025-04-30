@@ -1,4 +1,4 @@
-#include "Leadership.h"
+#include "stronghold.h"
 #include <iostream>
 
 Leadership::Leadership() {

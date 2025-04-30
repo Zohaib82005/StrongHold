@@ -1,4 +1,4 @@
-#include "Bank.h"
+#include "stronghold.h"
 #include <iostream>
 #include <cstdlib> // for rand()
 

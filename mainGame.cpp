@@ -1,13 +1,6 @@
 #include <iostream>
 #include <string>
-#include "Population.h"
-#include "Army.h"
-#include "Leadership.h"
-#include "Economy.h"
-#include "Bank.h"
-#include "ResourceManager.h"
-#include "EventManager.h"
-#include "Map.h" // Include the new map class
+#include"stronghold.h"
 
 int main() {
     Population population;
