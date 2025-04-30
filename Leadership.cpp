@@ -8,59 +8,92 @@ Leadership::Leadership() {
     inPower = true;
 }
 
-void Leadership::holdElection(const std::string& newLeader) {
+void Leadership::holdElection(const  string& newLeader) {
     if (popularity < 50) {
-        std::cout << "Election failed. People did not support it.\n";
+         cout << "Election failed. People did not support it.\n";
         return;
     }
 
     currentLeader = newLeader;
     policy = "Reformist";
     popularity = 65;
-    std::cout << "Election successful. New leader: " << currentLeader << "\n";
+     cout << "Election successful. New leader: " << currentLeader << "\n";
 }
 
 void Leadership::initiateCoup() {
     if (popularity < 30) {
         inPower = false;
-        std::cout << "Coup succeeded. Leadership has fallen.\n";
+         cout << "Coup succeeded. Leadership has fallen.\n";
     }
     else {
         popularity -= 15;
-        std::cout << "Coup attempt failed. Popularity reduced.\n";
+         cout << "Coup attempt failed. Popularity reduced.\n";
     }
 }
 
-void Leadership::changePolicy(const std::string& newPolicy) {
+void Leadership::changePolicy(const  string& newPolicy) {
     policy = newPolicy;
     popularity -= 5;
-    std::cout << "Policy changed to: " << policy << "\n";
+     cout << "Policy changed to: " << policy << "\n";
 }
 
 void Leadership::assessStability() {
     if (popularity < 20) {
-        std::cout << "Unstable kingdom! Risk of revolt or coup.\n";
+         cout << "Unstable kingdom! Risk of revolt or coup.\n";
     }
     else if (popularity < 50) {
-        std::cout << "Moderate unrest in the population.\n";
+         cout << "Moderate unrest in the population.\n";
     }
     else {
-        std::cout << "The kingdom is stable.\n";
+         cout << "The kingdom is stable.\n";
     }
 }
 
 void Leadership::displayStatus() const {
-    std::cout << "Leadership Status:\n";
-    std::cout << " Leader: " << currentLeader << "\n";
-    std::cout << " Policy: " << policy << "\n";
-    std::cout << " Popularity: " << popularity << "\n";
-    std::cout << " In Power: " << (inPower ? "Yes" : "No") << "\n";
+     cout << "Leadership Status:\n";
+     cout << " Leader: " << currentLeader << "\n";
+     cout << " Policy: " << policy << "\n";
+     cout << " Popularity: " << popularity << "\n";
+     cout << " In Power: " << (inPower ? "Yes" : "No") << "\n";
 }
 
-std::string Leadership::getPolicy() const {
+ string Leadership::getPolicy() const {
     return policy;
 }
 
 bool Leadership::isInPower() const {
     return inPower;
+}
+void Leadership::loadFromFile(const  string& filename) {
+     ifstream inFile(filename); 
+    if (!inFile.is_open()) {
+         cerr << "Error: Unable to open file for loading: " << filename <<  endl;
+        return; 
+    }
+
+   
+     getline(inFile, currentLeader); 
+     getline(inFile, policy);        
+    int powerFlag;                      
+    inFile >> popularity >> powerFlag;
+
+    
+    inPower = (powerFlag == 1);
+
+    inFile.close(); 
+     cout << "Leadership data loaded from file: " << filename <<  endl;
+}
+
+void Leadership::saveToFile(const  string& filename) const {
+     ofstream outFile(filename); 
+    if (!outFile.is_open()) {
+         cerr << "Error: Unable to open file for saving: " << filename <<  endl;
+        return; 
+    }
+
+    outFile << currentLeader << "\n" << policy << "\n" << popularity << " "
+        << (inPower ? 1 : 0) <<  endl;
+
+    outFile.close(); 
+     cout << "Leadership data saved to file: " << filename <<  endl;
 }

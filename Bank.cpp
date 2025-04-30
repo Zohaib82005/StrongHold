@@ -11,30 +11,30 @@ Bank::Bank() {
 
 void Bank::issueLoan(int amount) {
     if (amount <= 0) {
-        std::cout << "Invalid loan amount.\n";
+         cout << "Invalid loan amount.\n";
         return;
     }
     outstandingLoan += amount;
     treasury += amount;
-    std::cout << "Loan issued: " << amount << " gold.\n";
+     cout << "Loan issued: " << amount << " gold.\n";
 }
 
 void Bank::repayLoan(int amount) {
     if (amount <= 0 || amount > treasury) {
-        std::cout << "Cannot repay loan. Invalid amount or insufficient treasury.\n";
+         cout << "Cannot repay loan. Invalid amount or insufficient treasury.\n";
         return;
     }
     if (amount > outstandingLoan) amount = outstandingLoan;
     treasury -= amount;
     outstandingLoan -= amount;
-    std::cout << "Repaid loan: " << amount << " gold.\n";
+     cout << "Repaid loan: " << amount << " gold.\n";
 }
 
 void Bank::applyInterest() {
     if (outstandingLoan > 0) {
         int interest = static_cast<int>(outstandingLoan * interestRate);
         outstandingLoan += interest;
-        std::cout << "Interest applied: +" << interest << " gold to loan.\n";
+         cout << "Interest applied: +" << interest << " gold to loan.\n";
     }
 }
 
@@ -44,10 +44,10 @@ void Bank::auditTreasury() {
         corruptionDetected = true;
         int loss = treasury / 10;
         treasury -= loss;
-        std::cout << "Corruption detected! " << loss << " gold lost.\n";
+         cout << "Corruption detected! " << loss << " gold lost.\n";
     }
     else {
-        std::cout << "Audit clean. No corruption found.\n";
+         cout << "Audit clean. No corruption found.\n";
     }
 }
 
@@ -56,9 +56,42 @@ int Bank::getTreasury() const {
 }
 
 void Bank::displayStatus() const {
-    std::cout << "Bank Status:\n";
-    std::cout << " Treasury: " << treasury << " gold\n";
-    std::cout << " Outstanding Loan: " << outstandingLoan << " gold\n";
-    std::cout << " Interest Rate: " << interestRate * 100 << "%\n";
-    std::cout << " Corruption: " << (corruptionDetected ? "Yes" : "No") << "\n";
+     cout << "Bank Status:\n";
+     cout << " Treasury: " << treasury << " gold\n";
+     cout << " Outstanding Loan: " << outstandingLoan << " gold\n";
+     cout << " Interest Rate: " << interestRate * 100 << "%\n";
+     cout << " Corruption: " << (corruptionDetected ? "Yes" : "No") << "\n";
+}
+
+void Bank::loadFromFile(const  string& filename) {
+     ifstream inFile(filename); 
+    if (!inFile.is_open()) {
+         cerr << "Error: Unable to open file for loading: " << filename <<  endl;
+        return; 
+    }
+
+   
+    int corruptionFlag; 
+    inFile >> treasury >> outstandingLoan >> interestRate >> corruptionFlag;
+
+   
+    corruptionDetected = (corruptionFlag == 1);
+
+    inFile.close(); 
+     cout << "Bank data loaded from file: " << filename <<  endl;
+}
+
+void Bank::saveToFile(const  string& filename) const {
+     ofstream outFile(filename); 
+    if (!outFile.is_open()) {
+         cerr << "Error: Unable to open file for saving: " << filename <<  endl;
+        return; 
+    }
+
+    
+    outFile << treasury << " " << outstandingLoan << " " << interestRate << " "
+        << (corruptionDetected ? 1 : 0) <<  endl;
+
+    outFile.close();
+     cout << "Bank data saved to file: " << filename <<  endl;
 }

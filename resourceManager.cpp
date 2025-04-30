@@ -10,26 +10,26 @@ ResourceManager::ResourceManager() {
 
 void ResourceManager::gatherResources(int f, int w, int s, int i) {
     if (f < 0 || w < 0 || s < 0 || i < 0) {
-        std::cout << "Invalid gathering values.\n";
+         cout << "Invalid gathering values.\n";
         return;
     }
     food += f;
     wood += w;
     stone += s;
     iron += i;
-    std::cout << "Resources gathered.\n";
+     cout << "Resources gathered.\n";
 }
 
 void ResourceManager::consumeResources(int f, int w, int s, int i) {
     if (f > food || w > wood || s > stone || i > iron) {
-        std::cout << "Not enough resources to consume.\n";
+         cout << "Not enough resources to consume.\n";
         return;
     }
     food -= f;
     wood -= w;
     stone -= s;
     iron -= i;
-    std::cout << "Resources consumed.\n";
+     cout << "Resources consumed.\n";
 }
 
 void ResourceManager::loseResources(int f, int w, int s, int i) {
@@ -37,18 +37,47 @@ void ResourceManager::loseResources(int f, int w, int s, int i) {
     wood -= (w > wood ? wood : w);
     stone -= (s > stone ? stone : s);
     iron -= (i > iron ? iron : i);
-    std::cout << "Resources lost due to disaster.\n";
+     cout << "Resources lost due to disaster.\n";
 }
 
 void ResourceManager::displayResources() const {
-    std::cout << "Resources:\n";
-    std::cout << " Food: " << food << "\n";
-    std::cout << " Wood: " << wood << "\n";
-    std::cout << " Stone: " << stone << "\n";
-    std::cout << " Iron: " << iron << "\n";
+     cout << "Resources:\n";
+     cout << " Food: " << food << "\n";
+     cout << " Wood: " << wood << "\n";
+     cout << " Stone: " << stone << "\n";
+     cout << " Iron: " << iron << "\n";
 }
 
 int ResourceManager::getFood() const { return food; }
 int ResourceManager::getWood() const { return wood; }
 int ResourceManager::getStone() const { return stone; }
 int ResourceManager::getIron() const { return iron; }
+
+
+void ResourceManager::saveToFile(const  string& filename) const {
+     ofstream outFile(filename); 
+    if (!outFile.is_open()) {
+         cerr << "Error: Unable to open file for saving: " << filename <<  endl;
+        return; 
+    }
+
+    
+    outFile << food << " " << wood << " " << stone << " " << iron <<  endl;
+
+    outFile.close();
+     cout << "Resource data saved to file: " << filename <<  endl;
+}
+
+void ResourceManager::loadFromFile(const  string& filename) {
+     ifstream inFile(filename); 
+    if (!inFile.is_open()) {
+         cerr << "Error: Unable to open file for loading: " << filename <<  endl;
+        return; 
+    }
+
+    
+    inFile >> food >> wood >> stone >> iron;
+
+    inFile.close(); 
+     cout << "Resource data loaded from file: " << filename <<  endl;
+}

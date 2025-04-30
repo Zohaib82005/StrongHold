@@ -12,13 +12,13 @@ Population::Population() {
 void Population::simulateGrowth(int food, int shelter, int jobs) {
     int totalPop = getTotalPopulation();
     if (food < totalPop || shelter < totalPop || jobs < (peasants + merchants)) {
-        std::cout << "Growth stalled due to poor conditions.\n";
+         cout << "Growth stalled due to poor conditions.\n";
         return;
     }
 
     peasants += 5;
     merchants += 2;
-    std::cout << "Population grew: +5 peasants, +2 merchants\n";
+     cout << "Population grew: +5 peasants, +2 merchants\n";
 }
 
 void Population::applyIllness(int severity) {
@@ -27,13 +27,13 @@ void Population::applyIllness(int severity) {
     peasants -= affected / 2;
     merchants -= affected / 3;
     nobles -= affected / 6;
-    std::cout << "Illness hit! " << affected << " fell ill.\n";
+     cout << "Illness hit! " << affected << " fell ill.\n";
 }
 
 void Population::checkForRevolt() {
     if (peasants < 50) {
         revolting = 1;
-        std::cout << "Peasant revolt triggered!\n";
+         cout << "Peasant revolt triggered!\n";
     }
 }
 
@@ -46,10 +46,39 @@ int Population::getWorkingClass() const {
 }
 
 void Population::displayStatus() const {
-    std::cout << "Population Report:\n";
-    std::cout << " Peasants: " << peasants << "\n";
-    std::cout << " Merchants: " << merchants << "\n";
-    std::cout << " Nobles: " << nobles << "\n";
-    std::cout << " Ill: " << ill << "\n";
-    std::cout << " Revolting: " << (revolting ? "Yes" : "No") << "\n";
+     cout << "Population Report:\n";
+     cout << " Peasants: " << peasants << "\n";
+     cout << " Merchants: " << merchants << "\n";
+     cout << " Nobles: " << nobles << "\n";
+     cout << " Ill: " << ill << "\n";
+     cout << " Revolting: " << (revolting ? "Yes" : "No") << "\n";
+}
+
+void Population::saveToFile(const  string& filename) const {
+     ofstream outFile(filename); 
+    if (!outFile.is_open()) {
+         cerr << "Error: Unable to open file for saving: " << filename <<  endl;
+        return; 
+    }
+
+    
+    outFile << peasants << " " << merchants << " " << nobles << " "
+        << ill << " " << revolting <<  endl;
+
+    outFile.close(); 
+     cout << "Population data saved to file: " << filename <<  endl;
+}
+
+void Population::loadFromFile(const  string& filename) {
+     ifstream inFile(filename);
+    if (!inFile.is_open()) {
+         cerr << "Error: Unable to open file for loading: " << filename <<  endl;
+        return; 
+    }
+
+
+    inFile >> peasants >> merchants >> nobles >> ill >> revolting;
+
+    inFile.close(); 
+     cout << "Population data loaded from file: " << filename <<  endl;
 }

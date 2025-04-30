@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include"stronghold.h"
+#include "stronghold.h"
 
 int main() {
     Population population;
@@ -12,11 +12,11 @@ int main() {
     EventManager events;
     Map kingdomMap;
 
-    std::cout << "=== STRONGHOLD: KINGDOM SIMULATION STARTED ===\n";
+     cout << "=== STRONGHOLD: KINGDOM SIMULATION STARTED ===\n";
 
     const int maxTurns = 5;
     for (int turn = 1; turn <= maxTurns; ++turn) {
-        std::cout << "\n--- SEASON " << turn << " ---\n";
+         cout << "\n--- SEASON " << turn << " ---\n";
 
         // Display current status
         population.displayStatus();
@@ -28,16 +28,18 @@ int main() {
         kingdomMap.display();
 
         // ==== PLAYER MENU ====
-        std::cout << "\nWhat would you like to do this season?\n";
-        std::cout << "1. Collect taxes\n";
-        std::cout << "2. Recruit soldiers\n";
-        std::cout << "3. Train army\n";
-        std::cout << "4. Build structure on map\n";
-        std::cout << "5. Spend on services\n";
-        std::cout << "6. Change policy\n";
-        std::cout << "7. Do nothing\n";
+         cout << "\nWhat would you like to do this season?\n";
+         cout << "1. Collect taxes\n";
+         cout << "2. Recruit soldiers\n";
+         cout << "3. Train army\n";
+         cout << "4. Build structure on map\n";
+         cout << "5. Spend on services\n";
+         cout << "6. Change policy\n";
+         cout << "7. Save Game\n"; // Added option to save game
+         cout << "8. Load Game\n"; // Added option to load game
+         cout << "9. Do nothing\n";
         int choice;
-        std::cin >> choice;
+         cin >> choice;
 
         switch (choice) {
         case 1:
@@ -52,31 +54,57 @@ int main() {
         case 4: {
             char building;
             int x, y;
-            std::cout << "Enter building type (F=Farm, M=Mine, W=Wall, B=Barracks): ";
-            std::cin >> building;
-            std::cout << "Enter coordinates (x y): ";
-            std::cin >> x >> y;
+             cout << "Enter building type (F=Farm, M=Mine, W=Wall, B=Barracks): ";
+             cin >> building;
+             cout << "Enter coordinates (x y): ";
+             cin >> x >> y;
             kingdomMap.placeBuilding(building, x, y);
             break;
         }
         case 5: {
             int amount;
-            std::cout << "How much gold to spend on services? ";
-            std::cin >> amount;
+             cout << "How much gold to spend on services? ";
+             cin >> amount;
             economy.spendOnServices(amount);
             break;
         }
         case 6:
             leadership.changePolicy("Reformist");
             break;
-        case 7:
-            std::cout << "You chose to do nothing this season.\n";
+        case 7: {
+            // Save all objects to files
+             cout << "Saving game...\n";
+            population.saveToFile("population_data.txt");
+            army.saveToFile("army_data.txt");
+            leadership.saveToFile("leadership_data.txt");
+            economy.saveToFile("economy_data.txt");
+            bank.saveToFile("bank_data.txt");
+            resources.saveToFile("resources_data.txt");
+            kingdomMap.saveToFile("map_data.txt");
+             cout << "Game saved successfully!\n";
+            break;
+        }
+        case 8: {
+            // Load all objects from files
+             cout << "Loading game...\n";
+            population.loadFromFile("population_data.txt");
+            army.loadFromFile("army_data.txt");
+            leadership.loadFromFile("leadership_data.txt");
+            economy.loadFromFile("economy_data.txt");
+            bank.loadFromFile("bank_data.txt");
+            resources.loadFromFile("resources_data.txt");
+            kingdomMap.loadFromFile("map_data.txt");
+             cout << "Game loaded successfully!\n";
+            break;
+        }
+        case 9:
+             cout << "You chose to do nothing this season.\n";
             break;
         default:
-            std::cout << "Invalid choice.\n";
+             cout << "Invalid choice.\n";
         }
 
-        // Background simulation
+        
         population.simulateGrowth(resources.getFood(), 300, 200);
         army.feedAndPay();
         economy.applyInflation();
@@ -85,18 +113,18 @@ int main() {
         resources.gatherResources(30, 20, 15, 10);
         resources.consumeResources(50, 10, 5, 3);
 
-        // Random event
-        std::cout << "\n[EVENT] Something is happening...\n";
+       
+         cout << "\n[EVENT] Something is happening...\n";
         events.triggerRandomEvent();
 
-        // Ask how to respond
-        std::cout << "How will you respond? (1: Use funds, 2: Ignore, 3: Draft citizens)\n";
+       
+         cout << "How will you respond? (1: Use funds, 2: Ignore, 3: Draft citizens)\n";
         int response;
-        std::cin >> response;
+         cin >> response;
 
         switch (response) {
         case 1:
-            bank.repayLoan(100); // Example cost
+            bank.repayLoan(100); 
             population.applyIllness(10);
             break;
         case 2:
@@ -106,15 +134,15 @@ int main() {
             army.recruit(population.getWorkingClass());
             break;
         default:
-            std::cout << "No effective action taken.\n";
+             cout << "No effective action taken.\n";
         }
 
-        // Stability check
+       
         leadership.assessStability();
         population.applyIllness(turn);
     }
 
-    std::cout << "\n=== GAME OVER: Final Kingdom Report ===\n";
+     cout << "\n=== GAME OVER: Final Kingdom Report ===\n";
     population.displayStatus();
     army.displayStatus();
     leadership.displayStatus();

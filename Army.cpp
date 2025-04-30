@@ -12,35 +12,35 @@ Army::Army() {
 
 void Army::recruit(int availablePop) {
     if (availablePop < 10)
-        throw std::runtime_error("Not enough people to recruit.");
+        throw  runtime_error("Not enough people to recruit.");
 
     int newRecruits = availablePop / 10;
     soldiers += newRecruits;
     morale += 2;
-    std::cout << "Recruited " << newRecruits << " soldiers.\n";
+     cout << "Recruited " << newRecruits << " soldiers.\n";
 }
 
 void Army::train() {
     if (goldSupply < 50) {
-        std::cout << "Insufficient gold to train army.\n";
+         cout << "Insufficient gold to train army.\n";
         return;
     }
     goldSupply -= 50;
     morale += 5;
-    std::cout << "Army trained. Morale increased.\n";
+     cout << "Army trained. Morale increased.\n";
 }
 
 void Army::feedAndPay() {
     if (foodSupply < soldiers || goldSupply < (soldiers * 2)) {
         morale -= 10;
         corruption += 5;
-        std::cout << "Underfed or unpaid army. Morale dropped.\n";
+         cout << "Underfed or unpaid army. Morale dropped.\n";
     }
     else {
         foodSupply -= soldiers;
         goldSupply -= (soldiers * 2);
         morale += 3;
-        std::cout << "Army fed and paid.\n";
+         cout << "Army fed and paid.\n";
     }
 }
 
@@ -49,11 +49,35 @@ int Army::getStrength() const {
 }
 
 void Army::displayStatus() const {
-    std::cout << "Army Status:\n";
-    std::cout << " Soldiers: " << soldiers << "\n";
-    std::cout << " Morale: " << morale << "\n";
-    std::cout << " Corruption: " << corruption << "\n";
-    std::cout << " Food Supply: " << foodSupply << "\n";
-    std::cout << " Gold Supply: " << goldSupply << "\n";
-    std::cout << " Strength Score: " << getStrength() << "\n";
+     cout << "Army Status:\n";
+     cout << " Soldiers: " << soldiers << "\n";
+     cout << " Morale: " << morale << "\n";
+     cout << " Corruption: " << corruption << "\n";
+     cout << " Food Supply: " << foodSupply << "\n";
+     cout << " Gold Supply: " << goldSupply << "\n";
+     cout << " Strength Score: " << getStrength() << "\n";
+}
+void Army::saveToFile(const  string& filename) const {
+     ofstream outFile(filename); 
+    if (!outFile.is_open()) {
+         cerr << "Error: Unable to open file for saving: " << filename <<  endl;
+        return; 
+    }
+    outFile << soldiers << " " << morale << " " << corruption << " "
+        << foodSupply << " " << goldSupply <<  endl;
+
+    outFile.close(); 
+     cout << "Army data saved to file: " << filename <<  endl;
+}
+void Army::loadFromFile(const  string& filename) {
+     ifstream inFile(filename); 
+    if (!inFile.is_open()) {
+         cerr << "Error: Unable to open file for loading: " << filename <<  endl;
+        return; 
+    }
+
+    inFile >> soldiers >> morale >> corruption >> foodSupply >> goldSupply;
+
+    inFile.close();
+     cout << "Army data loaded from file: " << filename <<  endl;
 }

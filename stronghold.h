@@ -1,8 +1,11 @@
-#ifndef ARMY_H
-#define ARMY_H
-#include<string>
-#include <iostream> 
+#ifndef STRONGHOLD_H
+#define STRONGHOLD_H
+
+#include <string>
+#include <iostream>
+#include <fstream> // For file handling
 using namespace std;
+
 class Army
 {
 private:
@@ -21,6 +24,10 @@ public:
     void displayStatus() const;
 
     int getStrength() const;
+
+     
+    void saveToFile(const string& filename) const;
+    void loadFromFile(const string& filename);
 };
 
 class Bank
@@ -41,6 +48,10 @@ public:
     void displayStatus() const;
 
     int getTreasury() const;
+
+     
+    void saveToFile(const string& filename) const;
+    void loadFromFile(const string& filename);
 };
 
 class Economy
@@ -62,13 +73,30 @@ public:
     void displayStatus() const;
 
     int getTreasury() const;
+
+     
+    void saveToFile(const string& filename) const;
+    void loadFromFile(const string& filename);
 };
 
 class EventManager
 {
+private:
+    string lastEvent; // Description of the last triggered event
+    int eventCount;        // Number of events triggered so far
+
 public:
     EventManager();
+
     void triggerRandomEvent();
+
+     
+    void saveToFile(const  string& filename) const;
+    void loadFromFile(const  string& filename);
+
+    // Getters (optional)
+    string getLastEvent() const;
+    int getEventCount() const;
 };
 
 class Leadership
@@ -82,13 +110,17 @@ private:
 public:
     Leadership();
 
-    void holdElection(const std::string& newLeader);
+    void holdElection(const  string& newLeader);
     void initiateCoup();
-    void changePolicy(const std::string& newPolicy);
+    void changePolicy(const  string& newPolicy);
     void assessStability();
     void displayStatus() const;
     string getPolicy() const;
     bool isInPower() const;
+
+     
+    void saveToFile(const string& filename) const;
+    void loadFromFile(const string& filename);
 };
 
 class Map
@@ -102,6 +134,10 @@ public:
     Map();
     void display() const;
     bool placeBuilding(char buildingType, int x, int y);
+
+     
+    void saveToFile(const string& filename) const;
+    void loadFromFile(const string& filename);
 };
 
 class Population
@@ -123,6 +159,10 @@ public:
     int getTotalPopulation() const;
     int getWorkingClass() const;
     void displayStatus() const;
+
+     
+    void saveToFile(const string& filename) const;
+    void loadFromFile(const string& filename);
 };
 
 class ResourceManager
@@ -145,6 +185,10 @@ public:
     int getWood() const;
     int getStone() const;
     int getIron() const;
-};
-#endif
 
+     
+    void saveToFile(const string& filename) const;
+    void loadFromFile(const string& filename);
+};
+
+#endif
