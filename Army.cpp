@@ -1,6 +1,6 @@
 #include "stronghold.h"
 #include <iostream>
-#include <stdexcept>
+
 
 Army::Army() {
     soldiers = 50;
